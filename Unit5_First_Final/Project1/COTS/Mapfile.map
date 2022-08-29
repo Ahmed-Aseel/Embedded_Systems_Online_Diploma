@@ -1,0 +1,189 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x08000000         0x00020000         xr
+sram             0x20000000         0x00005000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+
+.text           0x08000000      0x264
+ *(.vectors*)
+ .vectors       0x08000000       0x18 startup.o
+                0x08000000                vectors
+ *(.text*)
+ .text          0x08000018       0x70 AlmAct_Program.o
+                0x08000018                Set_Alarm_Actuator
+                0x08000040                Start_Alarm
+                0x08000064                Stop_Alarm
+ .text          0x08000088       0xbc startup.o
+                0x08000088                reset_handler
+                0x08000138                Bus_fault_handler
+                0x08000138                default_handler
+                0x08000138                Usage_fault_handler
+                0x08000138                MM_fault_handler
+                0x08000138                H_fault_handler
+                0x08000138                NMI_handler
+ .text          0x08000144       0x30 main.o
+                0x08000144                main
+ .text          0x08000174       0x80 GPIO_Program.o
+                0x08000174                GPIO_INITIALIZATION
+ .text          0x080001f4       0x58 AlmMon_Program.o
+                0x080001f4                ALARM_INITIALIZATION
+                0x08000204                High_Pressure_Detected
+                0x08000228                Delay
+ .text          0x0800024c       0x18 PreSen_Program.o
+                0x0800024c                Get_Pressure_Val
+ *(.rodata)
+                0x08000264                . = ALIGN (0x4)
+                0x08000264                _E_text = .
+
+.glue_7         0x08000264        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x08000264        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x08000264        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x08000264        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x08000264        0x0
+ .iplt          0x00000000        0x0 AlmAct_Program.o
+
+.rel.dyn        0x08000264        0x0
+ .rel.iplt      0x00000000        0x0 AlmAct_Program.o
+
+.data           0x20000000        0x0 load address 0x08000264
+                0x20000000                _S_data = .
+ *(.data)
+ .data          0x20000000        0x0 AlmAct_Program.o
+ .data          0x20000000        0x0 startup.o
+ .data          0x20000000        0x0 main.o
+ .data          0x20000000        0x0 GPIO_Program.o
+ .data          0x20000000        0x0 AlmMon_Program.o
+ .data          0x20000000        0x0 PreSen_Program.o
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _E_data = .
+
+.igot.plt       0x20000000        0x0 load address 0x08000264
+ .igot.plt      0x00000000        0x0 AlmAct_Program.o
+
+.bss            0x20000000     0x1000 load address 0x08000264
+                0x20000000                _S_bss = .
+ *(.bss)
+ .bss           0x20000000        0x0 AlmAct_Program.o
+ .bss           0x20000000        0x0 startup.o
+ .bss           0x20000000        0x0 main.o
+ .bss           0x20000000        0x0 GPIO_Program.o
+ .bss           0x20000000        0x0 AlmMon_Program.o
+ .bss           0x20000000        0x0 PreSen_Program.o
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _E_bss = .
+                0x20000000                . = ALIGN (0x4)
+                0x20001000                . = (. + 0x1000)
+ *fill*         0x20000000     0x1000 
+                0x20001000                _stack_top = .
+LOAD AlmAct_Program.o
+LOAD startup.o
+LOAD main.o
+LOAD GPIO_Program.o
+LOAD AlmMon_Program.o
+LOAD PreSen_Program.o
+OUTPUT(Pressure_Detection_System.elf elf32-littlearm)
+
+.debug_info     0x00000000      0x4e0
+ .debug_info    0x00000000       0xda AlmAct_Program.o
+ .debug_info    0x000000da      0x174 startup.o
+ .debug_info    0x0000024e       0x9b main.o
+ .debug_info    0x000002e9       0x93 GPIO_Program.o
+ .debug_info    0x0000037c       0xcd AlmMon_Program.o
+ .debug_info    0x00000449       0x97 PreSen_Program.o
+
+.debug_abbrev   0x00000000      0x29b
+ .debug_abbrev  0x00000000       0x76 AlmAct_Program.o
+ .debug_abbrev  0x00000076       0xc4 startup.o
+ .debug_abbrev  0x0000013a       0x51 main.o
+ .debug_abbrev  0x0000018b       0x4d GPIO_Program.o
+ .debug_abbrev  0x000001d8       0x74 AlmMon_Program.o
+ .debug_abbrev  0x0000024c       0x4f PreSen_Program.o
+
+.debug_loc      0x00000000      0x214
+ .debug_loc     0x00000000       0x90 AlmAct_Program.o
+ .debug_loc     0x00000090       0x64 startup.o
+ .debug_loc     0x000000f4       0x38 main.o
+ .debug_loc     0x0000012c       0x2c GPIO_Program.o
+ .debug_loc     0x00000158       0x90 AlmMon_Program.o
+ .debug_loc     0x000001e8       0x2c PreSen_Program.o
+
+.debug_aranges  0x00000000       0xc0
+ .debug_aranges
+                0x00000000       0x20 AlmAct_Program.o
+ .debug_aranges
+                0x00000020       0x20 startup.o
+ .debug_aranges
+                0x00000040       0x20 main.o
+ .debug_aranges
+                0x00000060       0x20 GPIO_Program.o
+ .debug_aranges
+                0x00000080       0x20 AlmMon_Program.o
+ .debug_aranges
+                0x000000a0       0x20 PreSen_Program.o
+
+.debug_line     0x00000000      0x26f
+ .debug_line    0x00000000       0x5f AlmAct_Program.o
+ .debug_line    0x0000005f       0xbb startup.o
+ .debug_line    0x0000011a       0x3d main.o
+ .debug_line    0x00000157       0x58 GPIO_Program.o
+ .debug_line    0x000001af       0x6a AlmMon_Program.o
+ .debug_line    0x00000219       0x56 PreSen_Program.o
+
+.debug_str      0x00000000      0x228
+ .debug_str     0x00000000       0xfd AlmAct_Program.o
+                                0x11b (size before relaxing)
+ .debug_str     0x000000fd       0x89 startup.o
+                                0x172 (size before relaxing)
+ .debug_str     0x00000186       0x13 main.o
+                                 0xe2 (size before relaxing)
+ .debug_str     0x00000199       0x23 GPIO_Program.o
+                                 0xfb (size before relaxing)
+ .debug_str     0x000001bc       0x4a AlmMon_Program.o
+                                0x122 (size before relaxing)
+ .debug_str     0x00000206       0x22 PreSen_Program.o
+                                 0xfa (size before relaxing)
+
+.comment        0x00000000       0x11
+ .comment       0x00000000       0x11 AlmAct_Program.o
+                                 0x12 (size before relaxing)
+ .comment       0x00000000       0x12 startup.o
+ .comment       0x00000000       0x12 main.o
+ .comment       0x00000000       0x12 GPIO_Program.o
+ .comment       0x00000000       0x12 AlmMon_Program.o
+ .comment       0x00000000       0x12 PreSen_Program.o
+
+.ARM.attributes
+                0x00000000       0x33
+ .ARM.attributes
+                0x00000000       0x33 AlmAct_Program.o
+ .ARM.attributes
+                0x00000033       0x33 startup.o
+ .ARM.attributes
+                0x00000066       0x33 main.o
+ .ARM.attributes
+                0x00000099       0x33 GPIO_Program.o
+ .ARM.attributes
+                0x000000cc       0x33 AlmMon_Program.o
+ .ARM.attributes
+                0x000000ff       0x33 PreSen_Program.o
+
+.debug_frame    0x00000000      0x190
+ .debug_frame   0x00000000       0x60 AlmAct_Program.o
+ .debug_frame   0x00000060       0x4c startup.o
+ .debug_frame   0x000000ac       0x30 main.o
+ .debug_frame   0x000000dc       0x28 GPIO_Program.o
+ .debug_frame   0x00000104       0x64 AlmMon_Program.o
+ .debug_frame   0x00000168       0x28 PreSen_Program.o
