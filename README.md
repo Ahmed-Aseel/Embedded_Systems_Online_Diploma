@@ -1,2 +1,2 @@
-# Embedded_System_Diploma
+# Embedded_Systems_Diploma
 # Eng / Keroles Shenouda
