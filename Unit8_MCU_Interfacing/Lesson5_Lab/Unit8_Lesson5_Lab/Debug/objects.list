@@ -1,0 +1,8 @@
+"STM32F103C6_Drivers/GPIO_Driver/STM32F103C6_GPIO_driver.o"
+"STM32F103C6_Drivers/RCC_Driver/STM32F103C6_RCC_driver.o"
+"STM32F103C6_Drivers/SPI_Driver/STM32F103C6_SPI_driver.o"
+"STM32F103C6_Drivers/USART_Driver/STM32F103C6_USART_driver.o"
+"Src/main.o"
+"Src/syscalls.o"
+"Src/sysmem.o"
+"Startup/startup_stm32f103c6tx.o"
