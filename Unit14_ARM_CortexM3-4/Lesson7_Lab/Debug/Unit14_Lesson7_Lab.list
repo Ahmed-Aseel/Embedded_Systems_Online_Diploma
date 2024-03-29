@@ -1,0 +1,767 @@
+
+Unit14_Lesson7_Lab.axf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000130  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00000454  08000130  08000130  00010130  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  08000584  0800058c  0001058c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .ARM.extab    00000000  08000584  08000584  0001058c  2**0
+                  CONTENTS
+  4 .ARM          00000000  08000584  08000584  0001058c  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  08000584  0800058c  0001058c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08000584  08000584  00010584  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  08000588  08000588  00010588  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         00000000  20000000  20000000  0001058c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          00000058  20000000  0800058c  00020000  2**2
+                  ALLOC
+ 10 ._user_heap_stack 00000600  20000058  0800058c  00020058  2**0
+                  ALLOC
+ 11 .ARM.attributes 00000029  00000000  00000000  0001058c  2**0
+                  CONTENTS, READONLY
+ 12 .debug_info   00001185  00000000  00000000  000105b5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_abbrev 000003a9  00000000  00000000  0001173a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_loc    00000454  00000000  00000000  00011ae3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .debug_aranges 000000e8  00000000  00000000  00011f38  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 16 .debug_ranges 000000c0  00000000  00000000  00012020  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 17 .debug_macro  00002c8a  00000000  00000000  000120e0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 18 .debug_line   00000cbf  00000000  00000000  00014d6a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 19 .debug_str    0000e104  00000000  00000000  00015a29  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 20 .comment      0000007b  00000000  00000000  00023b2d  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  0000028c  00000000  00000000  00023ba8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+08000130 <__do_global_dtors_aux>:
+ 8000130:	b510      	push	{r4, lr}
+ 8000132:	4c05      	ldr	r4, [pc, #20]	; (8000148 <__do_global_dtors_aux+0x18>)
+ 8000134:	7823      	ldrb	r3, [r4, #0]
+ 8000136:	b933      	cbnz	r3, 8000146 <__do_global_dtors_aux+0x16>
+ 8000138:	4b04      	ldr	r3, [pc, #16]	; (800014c <__do_global_dtors_aux+0x1c>)
+ 800013a:	b113      	cbz	r3, 8000142 <__do_global_dtors_aux+0x12>
+ 800013c:	4804      	ldr	r0, [pc, #16]	; (8000150 <__do_global_dtors_aux+0x20>)
+ 800013e:	f3af 8000 	nop.w
+ 8000142:	2301      	movs	r3, #1
+ 8000144:	7023      	strb	r3, [r4, #0]
+ 8000146:	bd10      	pop	{r4, pc}
+ 8000148:	20000000 	.word	0x20000000
+ 800014c:	00000000 	.word	0x00000000
+ 8000150:	0800056c 	.word	0x0800056c
+
+08000154 <frame_dummy>:
+ 8000154:	b508      	push	{r3, lr}
+ 8000156:	4b03      	ldr	r3, [pc, #12]	; (8000164 <frame_dummy+0x10>)
+ 8000158:	b11b      	cbz	r3, 8000162 <frame_dummy+0xe>
+ 800015a:	4903      	ldr	r1, [pc, #12]	; (8000168 <frame_dummy+0x14>)
+ 800015c:	4803      	ldr	r0, [pc, #12]	; (800016c <frame_dummy+0x18>)
+ 800015e:	f3af 8000 	nop.w
+ 8000162:	bd08      	pop	{r3, pc}
+ 8000164:	00000000 	.word	0x00000000
+ 8000168:	20000004 	.word	0x20000004
+ 800016c:	0800056c 	.word	0x0800056c
+
+08000170 <EXTI0_IRQHandler>:
+* ===============================================
+* ISR Functions
+* ===============================================
+*/
+void EXTI0_IRQHandler(void)  /* EXTI Line0 interrupt */
+{
+ 8000170:	b580      	push	{r7, lr}
+ 8000172:	af00      	add	r7, sp, #0
+	//Cleared by writing a ‘1’ into the bit Pending register (EXTI_PR)
+	EXTI->PR |= (1 << 0);
+ 8000174:	4b05      	ldr	r3, [pc, #20]	; (800018c <EXTI0_IRQHandler+0x1c>)
+ 8000176:	695b      	ldr	r3, [r3, #20]
+ 8000178:	4a04      	ldr	r2, [pc, #16]	; (800018c <EXTI0_IRQHandler+0x1c>)
+ 800017a:	f043 0301 	orr.w	r3, r3, #1
+ 800017e:	6153      	str	r3, [r2, #20]
+
+	//Call IRQ CallBack
+	GP_IRQ_CallBack[0]();
+ 8000180:	4b03      	ldr	r3, [pc, #12]	; (8000190 <EXTI0_IRQHandler+0x20>)
+ 8000182:	681b      	ldr	r3, [r3, #0]
+ 8000184:	4798      	blx	r3
+}
+ 8000186:	bf00      	nop
+ 8000188:	bd80      	pop	{r7, pc}
+ 800018a:	bf00      	nop
+ 800018c:	40010400 	.word	0x40010400
+ 8000190:	2000001c 	.word	0x2000001c
+
+08000194 <EXTI1_IRQHandler>:
+void EXTI1_IRQHandler(void)  /* EXTI Line1 interrupt */
+{
+ 8000194:	b580      	push	{r7, lr}
+ 8000196:	af00      	add	r7, sp, #0
+	//Cleared by writing a ‘1’ into the bit Pending register (EXTI_PR)
+	EXTI->PR |= (1 << 1);
+ 8000198:	4b05      	ldr	r3, [pc, #20]	; (80001b0 <EXTI1_IRQHandler+0x1c>)
+ 800019a:	695b      	ldr	r3, [r3, #20]
+ 800019c:	4a04      	ldr	r2, [pc, #16]	; (80001b0 <EXTI1_IRQHandler+0x1c>)
+ 800019e:	f043 0302 	orr.w	r3, r3, #2
+ 80001a2:	6153      	str	r3, [r2, #20]
+
+	//Call IRQ CallBack
+	GP_IRQ_CallBack[1]();
+ 80001a4:	4b03      	ldr	r3, [pc, #12]	; (80001b4 <EXTI1_IRQHandler+0x20>)
+ 80001a6:	685b      	ldr	r3, [r3, #4]
+ 80001a8:	4798      	blx	r3
+}
+ 80001aa:	bf00      	nop
+ 80001ac:	bd80      	pop	{r7, pc}
+ 80001ae:	bf00      	nop
+ 80001b0:	40010400 	.word	0x40010400
+ 80001b4:	2000001c 	.word	0x2000001c
+
+080001b8 <EXTI2_IRQHandler>:
+void EXTI2_IRQHandler(void)  /* EXTI Line2 interrupt */
+{
+ 80001b8:	b580      	push	{r7, lr}
+ 80001ba:	af00      	add	r7, sp, #0
+	//Cleared by writing a ‘1’ into the bit Pending register (EXTI_PR)
+	EXTI->PR |= (1 << 2);
+ 80001bc:	4b05      	ldr	r3, [pc, #20]	; (80001d4 <EXTI2_IRQHandler+0x1c>)
+ 80001be:	695b      	ldr	r3, [r3, #20]
+ 80001c0:	4a04      	ldr	r2, [pc, #16]	; (80001d4 <EXTI2_IRQHandler+0x1c>)
+ 80001c2:	f043 0304 	orr.w	r3, r3, #4
+ 80001c6:	6153      	str	r3, [r2, #20]
+
+	//Call IRQ CallBack
+	GP_IRQ_CallBack[2]();
+ 80001c8:	4b03      	ldr	r3, [pc, #12]	; (80001d8 <EXTI2_IRQHandler+0x20>)
+ 80001ca:	689b      	ldr	r3, [r3, #8]
+ 80001cc:	4798      	blx	r3
+}
+ 80001ce:	bf00      	nop
+ 80001d0:	bd80      	pop	{r7, pc}
+ 80001d2:	bf00      	nop
+ 80001d4:	40010400 	.word	0x40010400
+ 80001d8:	2000001c 	.word	0x2000001c
+
+080001dc <EXTI3_IRQHandler>:
+void EXTI3_IRQHandler(void)  /* EXTI Line3 interrupt  */
+{
+ 80001dc:	b580      	push	{r7, lr}
+ 80001de:	af00      	add	r7, sp, #0
+	//Cleared by writing a ‘1’ into the bit Pending register (EXTI_PR)
+	EXTI->PR |= (1 << 3);
+ 80001e0:	4b05      	ldr	r3, [pc, #20]	; (80001f8 <EXTI3_IRQHandler+0x1c>)
+ 80001e2:	695b      	ldr	r3, [r3, #20]
+ 80001e4:	4a04      	ldr	r2, [pc, #16]	; (80001f8 <EXTI3_IRQHandler+0x1c>)
+ 80001e6:	f043 0308 	orr.w	r3, r3, #8
+ 80001ea:	6153      	str	r3, [r2, #20]
+
+	//Call IRQ CallBack
+	GP_IRQ_CallBack[3]();
+ 80001ec:	4b03      	ldr	r3, [pc, #12]	; (80001fc <EXTI3_IRQHandler+0x20>)
+ 80001ee:	68db      	ldr	r3, [r3, #12]
+ 80001f0:	4798      	blx	r3
+}
+ 80001f2:	bf00      	nop
+ 80001f4:	bd80      	pop	{r7, pc}
+ 80001f6:	bf00      	nop
+ 80001f8:	40010400 	.word	0x40010400
+ 80001fc:	2000001c 	.word	0x2000001c
+
+08000200 <EXTI4_IRQHandler>:
+void EXTI4_IRQHandler(void)  /* EXTI Line4 interrupt  */
+{
+ 8000200:	b580      	push	{r7, lr}
+ 8000202:	af00      	add	r7, sp, #0
+	//Cleared by writing a ‘1’ into the bit Pending register (EXTI_PR)
+	EXTI->PR |= (1 << 4);
+ 8000204:	4b05      	ldr	r3, [pc, #20]	; (800021c <EXTI4_IRQHandler+0x1c>)
+ 8000206:	695b      	ldr	r3, [r3, #20]
+ 8000208:	4a04      	ldr	r2, [pc, #16]	; (800021c <EXTI4_IRQHandler+0x1c>)
+ 800020a:	f043 0310 	orr.w	r3, r3, #16
+ 800020e:	6153      	str	r3, [r2, #20]
+
+	//Call IRQ CallBack
+	GP_IRQ_CallBack[4]();
+ 8000210:	4b03      	ldr	r3, [pc, #12]	; (8000220 <EXTI4_IRQHandler+0x20>)
+ 8000212:	691b      	ldr	r3, [r3, #16]
+ 8000214:	4798      	blx	r3
+}
+ 8000216:	bf00      	nop
+ 8000218:	bd80      	pop	{r7, pc}
+ 800021a:	bf00      	nop
+ 800021c:	40010400 	.word	0x40010400
+ 8000220:	2000001c 	.word	0x2000001c
+
+08000224 <EXTI9_5_IRQHandler>:
+void EXTI9_5_IRQHandler(void) /* EXTI Line[9:5] interrupts */
+{
+ 8000224:	b580      	push	{r7, lr}
+ 8000226:	af00      	add	r7, sp, #0
+	if(EXTI->PR & (1 << 5)) { EXTI->PR |= (1 << 5);	GP_IRQ_CallBack[5](); }
+ 8000228:	4b26      	ldr	r3, [pc, #152]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 800022a:	695b      	ldr	r3, [r3, #20]
+ 800022c:	f003 0320 	and.w	r3, r3, #32
+ 8000230:	2b00      	cmp	r3, #0
+ 8000232:	d008      	beq.n	8000246 <EXTI9_5_IRQHandler+0x22>
+ 8000234:	4b23      	ldr	r3, [pc, #140]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000236:	695b      	ldr	r3, [r3, #20]
+ 8000238:	4a22      	ldr	r2, [pc, #136]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 800023a:	f043 0320 	orr.w	r3, r3, #32
+ 800023e:	6153      	str	r3, [r2, #20]
+ 8000240:	4b21      	ldr	r3, [pc, #132]	; (80002c8 <EXTI9_5_IRQHandler+0xa4>)
+ 8000242:	695b      	ldr	r3, [r3, #20]
+ 8000244:	4798      	blx	r3
+	if(EXTI->PR & (1 << 6)) { EXTI->PR |= (1 << 6);	GP_IRQ_CallBack[6](); }
+ 8000246:	4b1f      	ldr	r3, [pc, #124]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000248:	695b      	ldr	r3, [r3, #20]
+ 800024a:	f003 0340 	and.w	r3, r3, #64	; 0x40
+ 800024e:	2b00      	cmp	r3, #0
+ 8000250:	d008      	beq.n	8000264 <EXTI9_5_IRQHandler+0x40>
+ 8000252:	4b1c      	ldr	r3, [pc, #112]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000254:	695b      	ldr	r3, [r3, #20]
+ 8000256:	4a1b      	ldr	r2, [pc, #108]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000258:	f043 0340 	orr.w	r3, r3, #64	; 0x40
+ 800025c:	6153      	str	r3, [r2, #20]
+ 800025e:	4b1a      	ldr	r3, [pc, #104]	; (80002c8 <EXTI9_5_IRQHandler+0xa4>)
+ 8000260:	699b      	ldr	r3, [r3, #24]
+ 8000262:	4798      	blx	r3
+	if(EXTI->PR & (1 << 7)) { EXTI->PR |= (1 << 7);	GP_IRQ_CallBack[7](); }
+ 8000264:	4b17      	ldr	r3, [pc, #92]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000266:	695b      	ldr	r3, [r3, #20]
+ 8000268:	f003 0380 	and.w	r3, r3, #128	; 0x80
+ 800026c:	2b00      	cmp	r3, #0
+ 800026e:	d008      	beq.n	8000282 <EXTI9_5_IRQHandler+0x5e>
+ 8000270:	4b14      	ldr	r3, [pc, #80]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000272:	695b      	ldr	r3, [r3, #20]
+ 8000274:	4a13      	ldr	r2, [pc, #76]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000276:	f043 0380 	orr.w	r3, r3, #128	; 0x80
+ 800027a:	6153      	str	r3, [r2, #20]
+ 800027c:	4b12      	ldr	r3, [pc, #72]	; (80002c8 <EXTI9_5_IRQHandler+0xa4>)
+ 800027e:	69db      	ldr	r3, [r3, #28]
+ 8000280:	4798      	blx	r3
+	if(EXTI->PR & (1 << 8)) { EXTI->PR |= (1 << 8);	GP_IRQ_CallBack[8](); }
+ 8000282:	4b10      	ldr	r3, [pc, #64]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000284:	695b      	ldr	r3, [r3, #20]
+ 8000286:	f403 7380 	and.w	r3, r3, #256	; 0x100
+ 800028a:	2b00      	cmp	r3, #0
+ 800028c:	d008      	beq.n	80002a0 <EXTI9_5_IRQHandler+0x7c>
+ 800028e:	4b0d      	ldr	r3, [pc, #52]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000290:	695b      	ldr	r3, [r3, #20]
+ 8000292:	4a0c      	ldr	r2, [pc, #48]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 8000294:	f443 7380 	orr.w	r3, r3, #256	; 0x100
+ 8000298:	6153      	str	r3, [r2, #20]
+ 800029a:	4b0b      	ldr	r3, [pc, #44]	; (80002c8 <EXTI9_5_IRQHandler+0xa4>)
+ 800029c:	6a1b      	ldr	r3, [r3, #32]
+ 800029e:	4798      	blx	r3
+	if(EXTI->PR & (1 << 9)) { EXTI->PR |= (1 << 9);	GP_IRQ_CallBack[9](); }
+ 80002a0:	4b08      	ldr	r3, [pc, #32]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 80002a2:	695b      	ldr	r3, [r3, #20]
+ 80002a4:	f403 7300 	and.w	r3, r3, #512	; 0x200
+ 80002a8:	2b00      	cmp	r3, #0
+ 80002aa:	d008      	beq.n	80002be <EXTI9_5_IRQHandler+0x9a>
+ 80002ac:	4b05      	ldr	r3, [pc, #20]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 80002ae:	695b      	ldr	r3, [r3, #20]
+ 80002b0:	4a04      	ldr	r2, [pc, #16]	; (80002c4 <EXTI9_5_IRQHandler+0xa0>)
+ 80002b2:	f443 7300 	orr.w	r3, r3, #512	; 0x200
+ 80002b6:	6153      	str	r3, [r2, #20]
+ 80002b8:	4b03      	ldr	r3, [pc, #12]	; (80002c8 <EXTI9_5_IRQHandler+0xa4>)
+ 80002ba:	6a5b      	ldr	r3, [r3, #36]	; 0x24
+ 80002bc:	4798      	blx	r3
+}
+ 80002be:	bf00      	nop
+ 80002c0:	bd80      	pop	{r7, pc}
+ 80002c2:	bf00      	nop
+ 80002c4:	40010400 	.word	0x40010400
+ 80002c8:	2000001c 	.word	0x2000001c
+
+080002cc <EXTI15_10_IRQHandler>:
+void EXTI15_10_IRQHandler(void) /* EXTI Line[15:10] interrupts */
+{
+ 80002cc:	b580      	push	{r7, lr}
+ 80002ce:	af00      	add	r7, sp, #0
+	if(EXTI->PR & (1 << 10)) { EXTI->PR |= (1 << 10);	GP_IRQ_CallBack[10](); }
+ 80002d0:	4b2d      	ldr	r3, [pc, #180]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 80002d2:	695b      	ldr	r3, [r3, #20]
+ 80002d4:	f403 6380 	and.w	r3, r3, #1024	; 0x400
+ 80002d8:	2b00      	cmp	r3, #0
+ 80002da:	d008      	beq.n	80002ee <EXTI15_10_IRQHandler+0x22>
+ 80002dc:	4b2a      	ldr	r3, [pc, #168]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 80002de:	695b      	ldr	r3, [r3, #20]
+ 80002e0:	4a29      	ldr	r2, [pc, #164]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 80002e2:	f443 6380 	orr.w	r3, r3, #1024	; 0x400
+ 80002e6:	6153      	str	r3, [r2, #20]
+ 80002e8:	4b28      	ldr	r3, [pc, #160]	; (800038c <EXTI15_10_IRQHandler+0xc0>)
+ 80002ea:	6a9b      	ldr	r3, [r3, #40]	; 0x28
+ 80002ec:	4798      	blx	r3
+	if(EXTI->PR & (1 << 11)) { EXTI->PR |= (1 << 11);	GP_IRQ_CallBack[11](); }
+ 80002ee:	4b26      	ldr	r3, [pc, #152]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 80002f0:	695b      	ldr	r3, [r3, #20]
+ 80002f2:	f403 6300 	and.w	r3, r3, #2048	; 0x800
+ 80002f6:	2b00      	cmp	r3, #0
+ 80002f8:	d008      	beq.n	800030c <EXTI15_10_IRQHandler+0x40>
+ 80002fa:	4b23      	ldr	r3, [pc, #140]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 80002fc:	695b      	ldr	r3, [r3, #20]
+ 80002fe:	4a22      	ldr	r2, [pc, #136]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 8000300:	f443 6300 	orr.w	r3, r3, #2048	; 0x800
+ 8000304:	6153      	str	r3, [r2, #20]
+ 8000306:	4b21      	ldr	r3, [pc, #132]	; (800038c <EXTI15_10_IRQHandler+0xc0>)
+ 8000308:	6adb      	ldr	r3, [r3, #44]	; 0x2c
+ 800030a:	4798      	blx	r3
+	if(EXTI->PR & (1 << 12)) { EXTI->PR |= (1 << 12);	GP_IRQ_CallBack[12](); }
+ 800030c:	4b1e      	ldr	r3, [pc, #120]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 800030e:	695b      	ldr	r3, [r3, #20]
+ 8000310:	f403 5380 	and.w	r3, r3, #4096	; 0x1000
+ 8000314:	2b00      	cmp	r3, #0
+ 8000316:	d008      	beq.n	800032a <EXTI15_10_IRQHandler+0x5e>
+ 8000318:	4b1b      	ldr	r3, [pc, #108]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 800031a:	695b      	ldr	r3, [r3, #20]
+ 800031c:	4a1a      	ldr	r2, [pc, #104]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 800031e:	f443 5380 	orr.w	r3, r3, #4096	; 0x1000
+ 8000322:	6153      	str	r3, [r2, #20]
+ 8000324:	4b19      	ldr	r3, [pc, #100]	; (800038c <EXTI15_10_IRQHandler+0xc0>)
+ 8000326:	6b1b      	ldr	r3, [r3, #48]	; 0x30
+ 8000328:	4798      	blx	r3
+	if(EXTI->PR & (1 << 13)) { EXTI->PR |= (1 << 13);	GP_IRQ_CallBack[13](); }
+ 800032a:	4b17      	ldr	r3, [pc, #92]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 800032c:	695b      	ldr	r3, [r3, #20]
+ 800032e:	f403 5300 	and.w	r3, r3, #8192	; 0x2000
+ 8000332:	2b00      	cmp	r3, #0
+ 8000334:	d008      	beq.n	8000348 <EXTI15_10_IRQHandler+0x7c>
+ 8000336:	4b14      	ldr	r3, [pc, #80]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 8000338:	695b      	ldr	r3, [r3, #20]
+ 800033a:	4a13      	ldr	r2, [pc, #76]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 800033c:	f443 5300 	orr.w	r3, r3, #8192	; 0x2000
+ 8000340:	6153      	str	r3, [r2, #20]
+ 8000342:	4b12      	ldr	r3, [pc, #72]	; (800038c <EXTI15_10_IRQHandler+0xc0>)
+ 8000344:	6b5b      	ldr	r3, [r3, #52]	; 0x34
+ 8000346:	4798      	blx	r3
+	if(EXTI->PR & (1 << 14)) { EXTI->PR |= (1 << 14);	GP_IRQ_CallBack[14](); }
+ 8000348:	4b0f      	ldr	r3, [pc, #60]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 800034a:	695b      	ldr	r3, [r3, #20]
+ 800034c:	f403 4380 	and.w	r3, r3, #16384	; 0x4000
+ 8000350:	2b00      	cmp	r3, #0
+ 8000352:	d008      	beq.n	8000366 <EXTI15_10_IRQHandler+0x9a>
+ 8000354:	4b0c      	ldr	r3, [pc, #48]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 8000356:	695b      	ldr	r3, [r3, #20]
+ 8000358:	4a0b      	ldr	r2, [pc, #44]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 800035a:	f443 4380 	orr.w	r3, r3, #16384	; 0x4000
+ 800035e:	6153      	str	r3, [r2, #20]
+ 8000360:	4b0a      	ldr	r3, [pc, #40]	; (800038c <EXTI15_10_IRQHandler+0xc0>)
+ 8000362:	6b9b      	ldr	r3, [r3, #56]	; 0x38
+ 8000364:	4798      	blx	r3
+	if(EXTI->PR & (1 << 15)) { EXTI->PR |= (1 << 15);	GP_IRQ_CallBack[15](); }
+ 8000366:	4b08      	ldr	r3, [pc, #32]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 8000368:	695b      	ldr	r3, [r3, #20]
+ 800036a:	f403 4300 	and.w	r3, r3, #32768	; 0x8000
+ 800036e:	2b00      	cmp	r3, #0
+ 8000370:	d008      	beq.n	8000384 <EXTI15_10_IRQHandler+0xb8>
+ 8000372:	4b05      	ldr	r3, [pc, #20]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 8000374:	695b      	ldr	r3, [r3, #20]
+ 8000376:	4a04      	ldr	r2, [pc, #16]	; (8000388 <EXTI15_10_IRQHandler+0xbc>)
+ 8000378:	f443 4300 	orr.w	r3, r3, #32768	; 0x8000
+ 800037c:	6153      	str	r3, [r2, #20]
+ 800037e:	4b03      	ldr	r3, [pc, #12]	; (800038c <EXTI15_10_IRQHandler+0xc0>)
+ 8000380:	6bdb      	ldr	r3, [r3, #60]	; 0x3c
+ 8000382:	4798      	blx	r3
+}
+ 8000384:	bf00      	nop
+ 8000386:	bd80      	pop	{r7, pc}
+ 8000388:	40010400 	.word	0x40010400
+ 800038c:	2000001c 	.word	0x2000001c
+
+08000390 <PendSV_Handler>:
+//Includes
+//-----------------------------
+#include "core_cm3.h"
+
+void PendSV_Handler()
+{
+ 8000390:	b480      	push	{r7}
+ 8000392:	af00      	add	r7, sp, #0
+	// Clear PendSv
+	SCB->ICSR |= SCB_ICSR_PENDSVCLR_Msk;
+ 8000394:	4b04      	ldr	r3, [pc, #16]	; (80003a8 <PendSV_Handler+0x18>)
+ 8000396:	685b      	ldr	r3, [r3, #4]
+ 8000398:	4a03      	ldr	r2, [pc, #12]	; (80003a8 <PendSV_Handler+0x18>)
+ 800039a:	f043 6300 	orr.w	r3, r3, #134217728	; 0x8000000
+ 800039e:	6053      	str	r3, [r2, #4]
+}
+ 80003a0:	bf00      	nop
+ 80003a2:	46bd      	mov	sp, r7
+ 80003a4:	bc80      	pop	{r7}
+ 80003a6:	4770      	bx	lr
+ 80003a8:	e000ed00 	.word	0xe000ed00
+
+080003ac <OS_SVC>:
+
+void OS_SVC(uint32_t* Stack_Frame)
+{
+ 80003ac:	b480      	push	{r7}
+ 80003ae:	b087      	sub	sp, #28
+ 80003b0:	af00      	add	r7, sp, #0
+ 80003b2:	6078      	str	r0, [r7, #4]
+	// R0 is a pointer to OS_SVC_Set stack frame
+	// R0, R1, R2, R3, R12, LR, Return Address (PC), xPSR
+	uint8_t SVC_Number;
+	uint32_t val1, val2;
+
+	val1 = Stack_Frame[0];
+ 80003b4:	687b      	ldr	r3, [r7, #4]
+ 80003b6:	681b      	ldr	r3, [r3, #0]
+ 80003b8:	617b      	str	r3, [r7, #20]
+	val2 = Stack_Frame[1];
+ 80003ba:	687b      	ldr	r3, [r7, #4]
+ 80003bc:	685b      	ldr	r3, [r3, #4]
+ 80003be:	613b      	str	r3, [r7, #16]
+	SVC_Number = *((uint8_t*)(((uint8_t*)Stack_Frame[6]) - 2));
+ 80003c0:	687b      	ldr	r3, [r7, #4]
+ 80003c2:	3318      	adds	r3, #24
+ 80003c4:	681b      	ldr	r3, [r3, #0]
+ 80003c6:	3b02      	subs	r3, #2
+ 80003c8:	781b      	ldrb	r3, [r3, #0]
+ 80003ca:	73fb      	strb	r3, [r7, #15]
+
+	switch(SVC_Number)
+ 80003cc:	7bfb      	ldrb	r3, [r7, #15]
+ 80003ce:	3b01      	subs	r3, #1
+ 80003d0:	2b03      	cmp	r3, #3
+ 80003d2:	d825      	bhi.n	8000420 <OS_SVC+0x74>
+ 80003d4:	a201      	add	r2, pc, #4	; (adr r2, 80003dc <OS_SVC+0x30>)
+ 80003d6:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 80003da:	bf00      	nop
+ 80003dc:	080003ed 	.word	0x080003ed
+ 80003e0:	080003f9 	.word	0x080003f9
+ 80003e4:	08000405 	.word	0x08000405
+ 80003e8:	08000413 	.word	0x08000413
+	{
+		case 1: // OS ADD
+			Stack_Frame[0] = val1 + val2;
+ 80003ec:	697a      	ldr	r2, [r7, #20]
+ 80003ee:	693b      	ldr	r3, [r7, #16]
+ 80003f0:	441a      	add	r2, r3
+ 80003f2:	687b      	ldr	r3, [r7, #4]
+ 80003f4:	601a      	str	r2, [r3, #0]
+			break;
+ 80003f6:	e013      	b.n	8000420 <OS_SVC+0x74>
+		case 2: // OS SUB
+			Stack_Frame[0] = val1 - val2;
+ 80003f8:	697a      	ldr	r2, [r7, #20]
+ 80003fa:	693b      	ldr	r3, [r7, #16]
+ 80003fc:	1ad2      	subs	r2, r2, r3
+ 80003fe:	687b      	ldr	r3, [r7, #4]
+ 8000400:	601a      	str	r2, [r3, #0]
+			break;
+ 8000402:	e00d      	b.n	8000420 <OS_SVC+0x74>
+		case 3: // OS MUL
+			Stack_Frame[0] = val1 * val2;
+ 8000404:	697b      	ldr	r3, [r7, #20]
+ 8000406:	693a      	ldr	r2, [r7, #16]
+ 8000408:	fb02 f203 	mul.w	r2, r2, r3
+ 800040c:	687b      	ldr	r3, [r7, #4]
+ 800040e:	601a      	str	r2, [r3, #0]
+			break;
+ 8000410:	e006      	b.n	8000420 <OS_SVC+0x74>
+		case 4: // OS PendSV
+			// Set PendSv
+			SCB->ICSR |= SCB_ICSR_PENDSVSET_Msk;
+ 8000412:	4b06      	ldr	r3, [pc, #24]	; (800042c <OS_SVC+0x80>)
+ 8000414:	685b      	ldr	r3, [r3, #4]
+ 8000416:	4a05      	ldr	r2, [pc, #20]	; (800042c <OS_SVC+0x80>)
+ 8000418:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 800041c:	6053      	str	r3, [r2, #4]
+			break;
+ 800041e:	bf00      	nop
+	}
+}
+ 8000420:	bf00      	nop
+ 8000422:	371c      	adds	r7, #28
+ 8000424:	46bd      	mov	sp, r7
+ 8000426:	bc80      	pop	{r7}
+ 8000428:	4770      	bx	lr
+ 800042a:	bf00      	nop
+ 800042c:	e000ed00 	.word	0xe000ed00
+
+08000430 <SVC_Handler>:
+
+__attribute__ ((naked)) void SVC_Handler()
+{
+	__asm volatile ("TST LR,#0x04 \n\t"
+ 8000430:	f01e 0f04 	tst.w	lr, #4
+ 8000434:	bf0c      	ite	eq
+ 8000436:	f3ef 8008 	mrseq	r0, MSP
+ 800043a:	f3ef 8009 	mrsne	r0, PSP
+ 800043e:	f7ff bfb5 	b.w	80003ac <OS_SVC>
+					"ITE EQ \n\t"
+					"MRSEQ R0,MSP \n\t"
+					"MRSNE R0,PSP \n\t"
+					"B OS_SVC");
+}
+ 8000442:	bf00      	nop
+
+08000444 <OS_SVC_Set>:
+
+uint32_t OS_SVC_Set(uint32_t a, uint32_t b, uint32_t SVC_ID)
+{
+ 8000444:	b480      	push	{r7}
+ 8000446:	b087      	sub	sp, #28
+ 8000448:	af00      	add	r7, sp, #0
+ 800044a:	60f8      	str	r0, [r7, #12]
+ 800044c:	60b9      	str	r1, [r7, #8]
+ 800044e:	607a      	str	r2, [r7, #4]
+	uint32_t ret_val = 0;
+ 8000450:	2300      	movs	r3, #0
+ 8000452:	617b      	str	r3, [r7, #20]
+	switch(SVC_ID)
+ 8000454:	687b      	ldr	r3, [r7, #4]
+ 8000456:	3b01      	subs	r3, #1
+ 8000458:	2b03      	cmp	r3, #3
+ 800045a:	d813      	bhi.n	8000484 <OS_SVC_Set+0x40>
+ 800045c:	a201      	add	r2, pc, #4	; (adr r2, 8000464 <OS_SVC_Set+0x20>)
+ 800045e:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8000462:	bf00      	nop
+ 8000464:	08000475 	.word	0x08000475
+ 8000468:	08000479 	.word	0x08000479
+ 800046c:	0800047d 	.word	0x0800047d
+ 8000470:	08000481 	.word	0x08000481
+	{
+		case 1: // OS ADD
+			__asm volatile ("SVC #0x01");
+ 8000474:	df01      	svc	1
+			break;
+ 8000476:	e005      	b.n	8000484 <OS_SVC_Set+0x40>
+		case 2: // OS SUB
+			__asm volatile ("SVC #0x02");
+ 8000478:	df02      	svc	2
+			break;
+ 800047a:	e003      	b.n	8000484 <OS_SVC_Set+0x40>
+		case 3: // OS MUL
+			__asm volatile ("SVC #0x03");
+ 800047c:	df03      	svc	3
+			break;
+ 800047e:	e001      	b.n	8000484 <OS_SVC_Set+0x40>
+		case 4: // OS PendSV
+			__asm volatile ("SVC #0x04");
+ 8000480:	df04      	svc	4
+			break;
+ 8000482:	bf00      	nop
+	}
+
+	__asm volatile ("MOV %0,R0" : "=r" (ret_val));
+ 8000484:	4603      	mov	r3, r0
+ 8000486:	617b      	str	r3, [r7, #20]
+	return ret_val;
+ 8000488:	697b      	ldr	r3, [r7, #20]
+}
+ 800048a:	4618      	mov	r0, r3
+ 800048c:	371c      	adds	r7, #28
+ 800048e:	46bd      	mov	sp, r7
+ 8000490:	bc80      	pop	{r7}
+ 8000492:	4770      	bx	lr
+
+08000494 <main>:
+
+int main(void)
+{
+ 8000494:	b580      	push	{r7, lr}
+ 8000496:	b082      	sub	sp, #8
+ 8000498:	af00      	add	r7, sp, #0
+	uint32_t result = 0;
+ 800049a:	2300      	movs	r3, #0
+ 800049c:	607b      	str	r3, [r7, #4]
+
+	result = OS_SVC_Set(3,2,1); // Add
+ 800049e:	2201      	movs	r2, #1
+ 80004a0:	2102      	movs	r1, #2
+ 80004a2:	2003      	movs	r0, #3
+ 80004a4:	f7ff ffce 	bl	8000444 <OS_SVC_Set>
+ 80004a8:	6078      	str	r0, [r7, #4]
+	result = OS_SVC_Set(3,2,2); // Sub
+ 80004aa:	2202      	movs	r2, #2
+ 80004ac:	2102      	movs	r1, #2
+ 80004ae:	2003      	movs	r0, #3
+ 80004b0:	f7ff ffc8 	bl	8000444 <OS_SVC_Set>
+ 80004b4:	6078      	str	r0, [r7, #4]
+	result = OS_SVC_Set(3,2,3); // Mul
+ 80004b6:	2203      	movs	r2, #3
+ 80004b8:	2102      	movs	r1, #2
+ 80004ba:	2003      	movs	r0, #3
+ 80004bc:	f7ff ffc2 	bl	8000444 <OS_SVC_Set>
+ 80004c0:	6078      	str	r0, [r7, #4]
+	result = OS_SVC_Set(0,0,4); // PendSV
+ 80004c2:	2204      	movs	r2, #4
+ 80004c4:	2100      	movs	r1, #0
+ 80004c6:	2000      	movs	r0, #0
+ 80004c8:	f7ff ffbc 	bl	8000444 <OS_SVC_Set>
+ 80004cc:	6078      	str	r0, [r7, #4]
+
+	while(1)
+ 80004ce:	e7fe      	b.n	80004ce <main+0x3a>
+
+080004d0 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 80004d0:	480d      	ldr	r0, [pc, #52]	; (8000508 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 80004d2:	4685      	mov	sp, r0
+/* Call the clock system intitialization function.*/
+  bl  SystemInit
+ 80004d4:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 80004d8:	480c      	ldr	r0, [pc, #48]	; (800050c <LoopForever+0x6>)
+  ldr r1, =_edata
+ 80004da:	490d      	ldr	r1, [pc, #52]	; (8000510 <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 80004dc:	4a0d      	ldr	r2, [pc, #52]	; (8000514 <LoopForever+0xe>)
+  movs r3, #0
+ 80004de:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 80004e0:	e002      	b.n	80004e8 <LoopCopyDataInit>
+
+080004e2 <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 80004e2:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 80004e4:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 80004e6:	3304      	adds	r3, #4
+
+080004e8 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 80004e8:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 80004ea:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 80004ec:	d3f9      	bcc.n	80004e2 <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 80004ee:	4a0a      	ldr	r2, [pc, #40]	; (8000518 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 80004f0:	4c0a      	ldr	r4, [pc, #40]	; (800051c <LoopForever+0x16>)
+  movs r3, #0
+ 80004f2:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 80004f4:	e001      	b.n	80004fa <LoopFillZerobss>
+
+080004f6 <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 80004f6:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 80004f8:	3204      	adds	r2, #4
+
+080004fa <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 80004fa:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 80004fc:	d3fb      	bcc.n	80004f6 <FillZerobss>
+
+/* Call static constructors */
+  bl __libc_init_array
+ 80004fe:	f000 f811 	bl	8000524 <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
+ 8000502:	f7ff ffc7 	bl	8000494 <main>
+
+08000506 <LoopForever>:
+
+LoopForever:
+    b LoopForever
+ 8000506:	e7fe      	b.n	8000506 <LoopForever>
+  ldr   r0, =_estack
+ 8000508:	20002800 	.word	0x20002800
+  ldr r0, =_sdata
+ 800050c:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 8000510:	20000000 	.word	0x20000000
+  ldr r2, =_sidata
+ 8000514:	0800058c 	.word	0x0800058c
+  ldr r2, =_sbss
+ 8000518:	20000000 	.word	0x20000000
+  ldr r4, =_ebss
+ 800051c:	20000058 	.word	0x20000058
+
+08000520 <ADC1_2_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 8000520:	e7fe      	b.n	8000520 <ADC1_2_IRQHandler>
+	...
+
+08000524 <__libc_init_array>:
+ 8000524:	b570      	push	{r4, r5, r6, lr}
+ 8000526:	2500      	movs	r5, #0
+ 8000528:	4e0c      	ldr	r6, [pc, #48]	; (800055c <__libc_init_array+0x38>)
+ 800052a:	4c0d      	ldr	r4, [pc, #52]	; (8000560 <__libc_init_array+0x3c>)
+ 800052c:	1ba4      	subs	r4, r4, r6
+ 800052e:	10a4      	asrs	r4, r4, #2
+ 8000530:	42a5      	cmp	r5, r4
+ 8000532:	d109      	bne.n	8000548 <__libc_init_array+0x24>
+ 8000534:	f000 f81a 	bl	800056c <_init>
+ 8000538:	2500      	movs	r5, #0
+ 800053a:	4e0a      	ldr	r6, [pc, #40]	; (8000564 <__libc_init_array+0x40>)
+ 800053c:	4c0a      	ldr	r4, [pc, #40]	; (8000568 <__libc_init_array+0x44>)
+ 800053e:	1ba4      	subs	r4, r4, r6
+ 8000540:	10a4      	asrs	r4, r4, #2
+ 8000542:	42a5      	cmp	r5, r4
+ 8000544:	d105      	bne.n	8000552 <__libc_init_array+0x2e>
+ 8000546:	bd70      	pop	{r4, r5, r6, pc}
+ 8000548:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 800054c:	4798      	blx	r3
+ 800054e:	3501      	adds	r5, #1
+ 8000550:	e7ee      	b.n	8000530 <__libc_init_array+0xc>
+ 8000552:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000556:	4798      	blx	r3
+ 8000558:	3501      	adds	r5, #1
+ 800055a:	e7f2      	b.n	8000542 <__libc_init_array+0x1e>
+ 800055c:	08000584 	.word	0x08000584
+ 8000560:	08000584 	.word	0x08000584
+ 8000564:	08000584 	.word	0x08000584
+ 8000568:	08000588 	.word	0x08000588
+
+0800056c <_init>:
+ 800056c:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 800056e:	bf00      	nop
+ 8000570:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000572:	bc08      	pop	{r3}
+ 8000574:	469e      	mov	lr, r3
+ 8000576:	4770      	bx	lr
+
+08000578 <_fini>:
+ 8000578:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 800057a:	bf00      	nop
+ 800057c:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800057e:	bc08      	pop	{r3}
+ 8000580:	469e      	mov	lr, r3
+ 8000582:	4770      	bx	lr
