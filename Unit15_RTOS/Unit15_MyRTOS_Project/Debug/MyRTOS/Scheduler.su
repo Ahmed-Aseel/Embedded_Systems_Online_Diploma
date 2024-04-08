@@ -1,0 +1,15 @@
+Scheduler.c:40:16:MyARTOS_Init	16	static
+Scheduler.c:69:16:MyRTOS_CreateTask	24	static
+Scheduler.c:105:16:MyRTOS_ActivateTask	24	static
+Scheduler.c:116:16:MyRTOS_TerminateTask	24	static
+Scheduler.c:125:6:MyRTOS_StartOS	8	static,ignoring_inline_asm
+Scheduler.c:147:23:MyRTOS_Create_MainStack	16	static
+Scheduler.c:165:13:MyRTOS_Idle_Task	4	static,ignoring_inline_asm
+Scheduler.c:174:13:MyRTOS_Init_TaskStack	24	static
+Scheduler.c:204:13:bubble_sort	32	static
+Scheduler.c:243:13:MyRTOS_Update_ScheduleTable	24	static
+Scheduler.c:296:13:MyRTOS_Decide_WhatNext	8	static
+Scheduler.c:320:6:OS_SVC	24	static
+Scheduler.c:352:13:MyRTOS_OS_SVC_Set	16	static,ignoring_inline_asm
+Scheduler.c:368:30:PendSV_Handler	0	static,ignoring_inline_asm
+Scheduler.c:426:6:SysTick_Handler	8	static
