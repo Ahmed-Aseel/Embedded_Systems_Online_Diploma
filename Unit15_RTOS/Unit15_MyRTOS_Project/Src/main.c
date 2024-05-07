@@ -98,7 +98,6 @@ void task4()
 	{
 		// Task4 code
 		task4_flag ^= 1;
-//		count++;
 		count++;
 		if(count == 3)
 		{
