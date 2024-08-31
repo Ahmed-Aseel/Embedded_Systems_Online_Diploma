@@ -1,0 +1,4 @@
+STM32F103C6_RCC_driver.c:43:10:MCAL_RCC_Getsys_CLKFreq	4	static
+STM32F103C6_RCC_driver.c:67:10:MCAL_RCC_GetHCLKFreq	8	static
+STM32F103C6_RCC_driver.c:72:10:MCAL_RCC_GetPCLK1Freq	8	static
+STM32F103C6_RCC_driver.c:77:10:MCAL_RCC_GetPCLK2Freq	8	static
